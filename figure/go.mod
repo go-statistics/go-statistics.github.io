@@ -5,7 +5,7 @@ go 1.27.2
 require (
 	github.com/go-ndarray/ndarray v0.11.0
 	github.com/go-plot/plot v0.1.1
-	github.com/go-statistics/stats v0.0.0-20261012072727-a1ee05ad652c
+	github.com/go-statistics/stats v0.1.0
 )
 
 require (
