@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ .Site.Title }} — probability and statistics in pure Go</title>
+<meta name="description" content="{{ .Site.Params.description }}">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+{{ partial "styles.html" . }}
+</head>
+<body class="lm">
+  <header class="nav"><div class="wrap">
+    <a class="brand" href="/"><img class="glyph" src="/img/logo.svg" width="32" height="32" alt="go-statistics logo"> {{ .Site.Title }}</a>
+    <nav><a href="#figure">Example</a><a href="#features">Why</a><a href="#exact">Checks</a><a href="#speed">Speed</a><a href="#repos">Repositories</a></nav>
+    {{ partial "theme-toggle.html" . }}
+  </div></header>
+  {{ partial "fork-ribbon.html" "https://github.com/go-statistics" }}
+
+  <div class="hero"><div class="wrap">
+    <div>
+      <h1 class="head">Probability and statistics, in pure Go.<br><span class="accent">Measured in ULPs, drawn to the bit.</span></h1>
+      <p class="sub">go-statistics is the statistics layer of the Go scientific stack built on <b>go-ndarray</b>: <b>32 univariate and 3 multivariate distributions</b> with every method of a frozen SciPy distribution, <b>descriptive statistics</b> with NumPy's quantiles, and the <b>statistical tests</b>. Every distribution function is measured in ULPs against <b>mpmath</b>, with SciPy measured on the same points, and for the same seed the draws are SciPy's. No cgo, no assembly.</p>
+      <div class="cta">
+        <a class="btn btn-primary" href="https://go-statistics.github.io/docs/">{{ partial "icons/book.html" . }}Read the documentation →</a>
+      </div>
+      <div class="trust"><span><b>1473/1479</b> regions at or below SciPy's error</span><span><b>13</b> quantile methods bit-identical to NumPy</span><span><b>8</b> architectures in CI</span></div>
+    </div>
+    {{/* figure/main.go of this repository, from func main on, read at build
+         time: the program that drew the figure in #figure. */}}
+    {{- $src := readFile "figure/main.go" -}}
+    {{- $body := index (findRE `(?s)func main\(\) \{.*` $src) 0 -}}
+    <div class="term">
+      <div class="bar"><i style="background:#ff5f57"></i><i style="background:#febc2e"></i><i style="background:#28c840"></i><span class="t">main.go</span></div>
+<pre style="white-space:pre;overflow-x:auto;tab-size:4">{{ $body }}</pre>
+    </div>
+  </div></div>
+
+  <div class="strip"><div class="wrap">
+    <span class="lead-line">{{ len .Site.Params.repos }} repositories — <b>one library</b>: <code>go get github.com/go-statistics/stats</code></span>
+    <div class="mods">{{ range .Site.Params.repos }}<a href="{{ .href }}">{{ .name }}</a>{{ end }}</div>
+  </div></div>
+
+  <section id="figure" style="padding-top:10px"><div class="wrap">
+    <span class="eyebrow">Ask it, do not take our word</span>
+    <h2>The program above, <i>actually run</i>.</h2>
+    <p class="lead">Ten thousand gamma draws from seed 42 — the same draws SciPy makes from the same seed — their histogram, the density they were drawn from, the maximum-likelihood fit, and a Kolmogorov–Smirnov test of the draws against that fit, whose result is the title. go-plot drew the SVG. The CI runs the program again and fails if one byte of the figure differs.</p>
+    {{/* static/img/figure.svg: written by figure/main.go with the versions
+         of go-statistics/stats and go-plot/plot that figure/go.mod names.
+         The ci workflow redraws it; never edit it by hand. */}}
+    <div class="card" style="margin-top:22px;padding:18px;background:#fff;text-align:center">
+      <img src="/img/figure.svg" alt="Histogram of 10 000 gamma draws with the true density and the fitted density, drawn by go-plot" style="max-width:100%;height:auto" width="640" height="400">
+    </div>
+  </div></section>
+
+  <section id="features"><div class="wrap">
+    <span class="eyebrow">Why go-statistics</span>
+    <h2>The statistics notebooks <i>reach for</i>, in one package.</h2>
+    <p class="lead">Everything is in package <code>stats</code>: distributions, descriptive statistics, tests, the kernel density estimate and the bootstrap share one input type — a <code>[]float64</code> or a go-ndarray array — and one set of error kinds. Each Go call names the SciPy or NumPy call it corresponds to, and option structs have their defaults as the zero value.</p>
+    <div class="grid">
+      <div class="card"><div class="ico">🔔</div><h3>24 continuous distributions</h3><p>Normal, beta, gamma, chi-squared, Student t, F, noncentral chi-squared, log-normal, Weibull, Pareto, von Mises and more, each with pdf, cdf, sf, ppf, isf and their logarithms, moments, median, entropy, interval and support.</p></div>
+      <div class="card"><div class="ico">🎲</div><h3>8 discrete, 3 multivariate</h3><p>Bernoulli, binomial, Poisson, geometric, negative binomial, hypergeometric, discrete uniform and Zipf; the multivariate normal (with its CDF), Dirichlet and multinomial.</p></div>
+      <div class="card"><div class="ico">🌱</div><h3>Draws from NumPy's generator</h3><p><code>Rvs</code> takes go-ndarray's <code>random.Generator</code>, which is NumPy's bit for bit, and makes the generator calls SciPy makes, so the same seed gives the same sample.</p></div>
+      <div class="card"><div class="ico">📐</div><h3>Fits</h3><p><code>FitXxx</code> with fixed parameters: SciPy's closed forms to the bit, likelihood equations polished to full precision, and elsewhere a log-likelihood at least as high as SciPy's.</p></div>
+      <div class="card"><div class="ico">📊</div><h3>Descriptive statistics</h3><p>Describe, weighted means and variances, NumPy's 13 quantile methods, mode, skew, kurtosis, trimmed statistics, entropies, histograms with every bin rule, binned statistics.</p></div>
+      <div class="card"><div class="ico">🧪</div><h3>Tests</h3><p>t-tests (Student, Welch, trimmed), chi-squared and contingency tables, Fisher's exact test, Pearson, Spearman, Kendall, Kolmogorov–Smirnov, Mann–Whitney, Wilcoxon, Kruskal–Wallis, Shapiro–Wilk, Anderson–Darling, ANOVA, Levene, Bartlett.</p></div>
+      <div class="card"><div class="ico">🧮</div><h3>On go-ndarray, across cores</h3><p><code>stats.Map(x, d.CDF)</code> applies a method to an array over every core, each element computed once, so the result does not depend on the number of goroutines.</p></div>
+      <div class="card"><div class="ico">📦</div><h3>Pure Go, BSD-3-Clause</h3><p>No cgo, no assembly. The accuracy budgets are enforced on amd64, arm64, 386, arm, riscv64, loong64, ppc64le and s390x.</p></div>
+    </div>
+  </div></section>
+
+  <section id="exact" style="padding-top:10px"><div class="wrap">
+    <span class="eyebrow">What is checked</span>
+    <h2>{{ len .Site.Params.checks }} kinds of check, each <i>against a recorded answer</i>.</h2>
+    <p class="lead">The fixtures are written by scripts that call the references — mpmath 1.4.1 at 192 and 320 bits, SciPy 1.18.1 and NumPy 2.5.4 (x86-64 builds) — committed, and compared by <code>go test</code>. SciPy is a point of comparison, never the reference. What differs, and why, is in the <a href="https://github.com/go-statistics/stats/blob/main/docs/accuracy.md">accuracy document</a>.</p>
+    <div class="grid">
+      {{ range .Site.Params.checks }}
+      <div class="card"><h3>{{ .name }}</h3><p>{{ .what | markdownify }}</p></div>
+      {{ end }}
+    </div>
+  </div></section>
+
+  <section id="speed" style="padding-top:10px"><div class="wrap">
+    <span class="eyebrow">Speed</span>
+    <h2>Faster on arrays, <i>and slower where accuracy costs</i>.</h2>
+    <p class="lead">Medians of 7 interleaved rounds against SciPy 1.18.1 / NumPy 2.5.4 (native arm64 wheels) on a shared 16-core arm64 Mac, from the library's <code>docs/perf.md</code>. Go runs on all cores (<code>stats.Map</code>), SciPy on one, as each runs; single core, the scalar functions cost 2–15× SciPy's C loops. The rows in the library's colour are where SciPy is faster.</p>
+    <div class="tablewrap">
+      <table class="bench">
+        <thead><tr><th>case</th><th>go-statistics</th><th>SciPy 1.18.1</th><th>SciPy / Go</th></tr></thead>
+        <tbody>
+          <tr class="win"><td>norm.cdf, 10⁶ points</td><td>17.9 ms</td><td>29.8 ms</td><td class="xm">1.66×</td></tr>
+          <tr class="win"><td>beta.pdf, 10⁶ points</td><td>77.9 ms</td><td>94.2 ms</td><td class="xm">1.21×</td></tr>
+          <tr class="lose"><td>norm.ppf, 10⁶ points</td><td>43.9 ms</td><td>27.1 ms</td><td class="xm">0.62×</td></tr>
+          <tr class="lose"><td>t.ppf, 10⁵ points</td><td>1096 ms</td><td>49.7 ms</td><td class="xm">0.05×</td></tr>
+          <tr class="win"><td>describe, 10⁶ values</td><td>59.8 ms</td><td>183.5 ms</td><td class="xm">3.07×</td></tr>
+          <tr class="win"><td>percentile (5 q), 10⁶ values</td><td>27.2 ms</td><td>40.7 ms</td><td class="xm">1.50×</td></tr>
+          <tr class="win"><td>spearmanr, 10⁶ pairs</td><td>368 ms</td><td>861 ms</td><td class="xm">2.34×</td></tr>
+          <tr class="lose"><td>pearsonr, 10⁶ pairs</td><td>97.0 ms</td><td>5.94 ms</td><td class="xm">0.06×</td></tr>
+          <tr class="lose"><td>ttest_ind, 10⁶ + 10⁶</td><td>7.74 ms</td><td>6.80 ms</td><td class="xm">0.88×</td></tr>
+          <tr class="win"><td>gaussian_kde evaluate, 10⁴ × 10⁴</td><td>113 ms</td><td>916 ms</td><td class="xm">8.07×</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div></section>
+
+  <section id="repos" style="padding-top:20px"><div class="wrap">
+    <span class="eyebrow">Repositories</span>
+    <h2>What is here.</h2>
+    <div class="road">
+      {{ range .Site.Params.repos }}
+      <div class="ph">
+        <div class="top"><h4><a href="{{ .href }}">{{ .name }}</a></h4><span class="tag active">{{ .kind }}</span></div>
+        <p>{{ .blurb | safeHTML }}</p>
+      </div>
+      {{ end }}
+    </div>
+  </div></section>
+
+  <section id="eco" style="padding-top:6px"><div class="wrap">
+    <div class="band">
+      <h2>Statistics for the Go scientific stack.</h2>
+      <p>go-statistics computes on the arrays of <a href="https://github.com/go-ndarray/ndarray"><u>go-ndarray</u></a> and draws from its NumPy-exact generator, takes its special functions and optimisers from <a href="https://github.com/go-numerics"><u>go-numerics</u></a>, plots with <a href="https://github.com/go-plot/plot"><u>go-plot</u></a>, and a <a href="https://github.com/go-notebook/notebook"><u>go-notebook</u></a> cell can use all of them. Where the library is slower or less accurate than SciPy, the <a href="https://go-statistics.github.io/docs/"><u>documentation</u></a> says so.</p>
+      <a class="btn btn-ghost" href="https://github.com/go-statistics">{{ partial "icons/github.html" . }}Read the source on GitHub →</a>
+    </div>
+  </div></section>
+
+  <footer><div class="wrap"><span>go-statistics · <a href="https://github.com/go-statistics">go-statistics on GitHub</a> · BSD-3-Clause</span><span>data in · distributions out</span></div></footer>
+</body>
+</html>
