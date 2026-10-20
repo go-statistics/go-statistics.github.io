@@ -3,7 +3,7 @@ module github.com/go-statistics/go-statistics.github.io/figure
 go 1.27.2
 
 require (
-	github.com/go-ndarray/ndarray v0.12.0
+	github.com/go-ndarray/ndarray v0.18.0
 	github.com/go-plot/plot v0.1.1
 	github.com/go-statistics/stats v0.1.0
 )
