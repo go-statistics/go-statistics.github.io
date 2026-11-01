@@ -1,6 +1,6 @@
 module github.com/go-statistics/go-statistics.github.io/figure
 
-go 1.27.2
+go 1.27.3
 
 require (
 	github.com/go-ndarray/ndarray v0.18.0
