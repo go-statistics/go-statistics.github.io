@@ -19,10 +19,9 @@
   <div class="hero"><div class="wrap">
     <div>
       <h1 class="head">Probability and statistics, in pure Go.<br><span class="accent">Measured in ULPs, drawn to the bit.</span></h1>
-      <p class="sub">go-statistics is the statistics layer of the Go scientific stack built on <b>go-ndarray</b>: <b>32 univariate and 3 multivariate distributions</b> with every method of a frozen SciPy distribution, <b>descriptive statistics</b> with NumPy's quantiles, and the <b>statistical tests</b>. Every distribution function is measured in ULPs against <b>mpmath</b>, with SciPy measured on the same points, and for the same seed the draws are SciPy's. No cgo, no assembly.</p>
-      <div class="cta">
-        <a class="btn btn-primary" href="https://go-statistics.github.io/docs/">{{ partial "icons/book.html" . }}Read the documentation →</a>
-      </div>
+      <p class="sub">go-statistics is the statistics layer of the Go scientific stack built on <b>go-ndarray</b>: <b>32 univariate and 3 multivariate distributions</b> with every method of a frozen SciPy distribution, <b>descriptive statistics</b> with NumPy's quantiles, and the <b>statistical tests</b>. Every distribution function is measured in ULPs against <b>mpmath</b>, with SciPy measured on the same points, and for the same seed the draws are SciPy's. {{ if not (partial "mantra-on.html" $) }}No cgo{{ end }}, no assembly.</p>
+      {{/* [[params.cta]] in hugo.toml: the kit renders the row */}}
+      {{ partial "cta.html" . }}
       <div class="trust"><span><b>1473/1479</b> regions at or below SciPy's error</span><span><b>13</b> quantile methods bit-identical to NumPy</span><span><b>8</b> architectures in CI</span></div>
     </div>
     {{/* figure/main.go of this repository, from func main on, read at build
@@ -64,7 +63,7 @@
       <div class="card"><div class="ico">📊</div><h3>Descriptive statistics</h3><p>Describe, weighted means and variances, NumPy's 13 quantile methods, mode, skew, kurtosis, trimmed statistics, entropies, histograms with every bin rule, binned statistics.</p></div>
       <div class="card"><div class="ico">🧪</div><h3>Tests</h3><p>t-tests (Student, Welch, trimmed), chi-squared and contingency tables, Fisher's exact test, Pearson, Spearman, Kendall, Kolmogorov–Smirnov, Mann–Whitney, Wilcoxon, Kruskal–Wallis, Shapiro–Wilk, Anderson–Darling, ANOVA, Levene, Bartlett.</p></div>
       <div class="card"><div class="ico">🧮</div><h3>On go-ndarray, across cores</h3><p><code>stats.Map(x, d.CDF)</code> applies a method to an array over every core, each element computed once, so the result does not depend on the number of goroutines.</p></div>
-      <div class="card"><div class="ico">📦</div><h3>Pure Go, BSD-3-Clause</h3><p>No cgo, no assembly. The accuracy budgets are enforced on amd64, arm64, 386, arm, riscv64, loong64, ppc64le and s390x.</p></div>
+      {{ if not (partial "mantra-on.html" $) }}<div class="card"><div class="ico">📦</div><h3>Pure Go, BSD-3-Clause</h3><p>No cgo, no assembly. {{ if not (and $.Site.Params.mantra $.Site.Params.mantra.goarch) }}The accuracy budgets are enforced on amd64, arm64, 386, arm, riscv64, loong64, ppc64le and s390x.{{ end }}</p></div>{{ end }}
     </div>
   </div></section>
 
