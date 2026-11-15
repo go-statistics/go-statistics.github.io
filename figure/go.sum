@@ -1,9 +1,11 @@
 github.com/andybalholm/brotli v1.2.7 h1:UgafRPGMam5ySHfRkhthMqOFA6IFoeF3D7mWIDLjG5A=
 github.com/andybalholm/brotli v1.2.7/go.mod h1:rzTDkvFWvIrjDXZHkuS16NPggd91W3kUSvPlQ1pLaKY=
+github.com/go-blas/blas v0.2.1 h1:5uZfmvXVZn9CjE+I3DalALqWHdKz+rbBs8VffH3dAZo=
+github.com/go-blas/blas v0.2.1/go.mod h1:WjhlqzQ+RA8tS473f18QtcJl5Q0GonPs3RJIxT5G7Bk=
 github.com/go-gfx/gfx v0.37.0 h1:nQH23BtuJ1pqXqvg0s7FHSI1c/ewg9nnBl3Nc3cYCik=
 github.com/go-gfx/gfx v0.37.0/go.mod h1:4OenoKrgdht6UXYf5SV8w2tb41hfAdy4QoxJRPsRDz4=
-github.com/go-ndarray/ndarray v0.41.3 h1:uuhZ9hYcYXzOVoAQoO8i+HGBliR7ZCiHb/OXxmbPy6c=
-github.com/go-ndarray/ndarray v0.41.3/go.mod h1:e/5IBOVrikiwf3Hs8Z6G9EGC7kVwKAj+K569C83HbyU=
+github.com/go-ndarray/ndarray v0.42.0 h1:M7vWxCzIOhrXul0kOgltZwuZPEFferuYesMux1DmFlM=
+github.com/go-ndarray/ndarray v0.42.0/go.mod h1:2eeyA/dVOXTAsj+KjCMD7Bz7kClkD8+NAlJp3G+OuSk=
 github.com/go-numerics/optimize v0.6.0 h1:7QjTy+M+PclufHFwIo5PrxReU397BvX0ys/ZIJ+kkSo=
 github.com/go-numerics/optimize v0.6.0/go.mod h1:b5Fg+NuuCKViOXQLzfgBhxd0thmAjt6lREE8EDFVyQ8=
 github.com/go-numerics/special v0.5.3 h1:sTZ4hbZE7XsDmMM0AclR0dQFFe9+mIjstxECvaMEOsU=
